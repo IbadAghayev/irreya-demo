@@ -2,404 +2,390 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Irreya — Trendy Products</title>
-  <meta name="description" content="Irreya: modern, stylish and affordable products. Explore our summer collection and best sellers." />
-  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Irreya Café - Specialty Coffee & Cozy Atmosphere</title>
+  <meta name="description" content="Discover artisanal coffee, delicious pastries and a warm atmosphere at Irreya Café. Visit us for specialty brews and daily specials.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Irreya Café - Specialty Coffee & Cozy Atmosphere">
+  <meta property="og:description" content="Discover artisanal coffee, delicious pastries and a warm atmosphere at Irreya Café.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ibadaghayev.github.io/irreya-cafe/">
+  <meta property="og:image" content="https://picsum.photos/1200/630?coffee">
+  <meta property="og:image:alt" content="Irreya Café cozy interior and coffee being served">
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { primary: '#6d28d9', accent: '#f59e0b' } } }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    :root {
-      --primary: #6d28d9;
-      --primary-light: #8b5cf6;
-      --primary-dark: #5b21b6;
-      --accent: #f59e0b;
-      --text: #1e293b;
-      --light-bg: #f8fafc;
-      --white: #ffffff;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Itim', cursive; color: var(--text); background-color: var(--light-bg); }
-
-    /* Helpers to use CSS vars as utilities like Tailwind */
-    .bg-primary { background-color: var(--primary); }
-    .bg-accent { background-color: var(--accent); }
-    .text-primary { color: var(--primary); }
-    .text-accent { color: var(--accent); }
-    .border-primary { border-color: var(--primary); }
-    .border-accent { border-color: var(--accent); }
-
-    .nav-link { position: relative; transition: all 0.3s ease; }
-    .nav-link:hover { color: var(--primary-light); }
-    .nav-link::after {
-      content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; left: 0; background-color: var(--accent); transition: width 0.3s;
-    }
-    .nav-link:hover::after { width: 100%; }
-
-    .product-card { transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); }
-    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); }
-
-    .btn-primary { background-color: var(--primary); transition: all 0.3s ease; }
-    .btn-primary:hover { background-color: var(--primary-dark); }
-
-    #newsletter-modal { transition: all 0.3s ease; opacity: 0; visibility: hidden; }
-    #newsletter-modal.active { opacity: 1; visibility: visible; }
+    html{scroll-behavior:smooth}
+    #chat-messages{max-height:300px;overflow-y:auto}
+    .menu-item{transition:transform .3s ease}
+    .menu-item:hover{transform:translateY(-5px)}
+    .map-container{position:relative;overflow:hidden;padding-top:56.25%}
+    .map-container iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="#top" class="inline-flex items-center">
-        <h1 class="text-3xl font-bold text-primary">Irreya</h1>
-      </a>
-      <nav class="hidden md:flex space-x-8">
-        <a href="#about" class="nav-link text-lg">About Us</a>
-        <a href="#products" class="nav-link text-lg">Products</a>
-        <a href="#contact" class="nav-link text-lg">Contact</a>
-      </nav>
-      <button class="md:hidden text-2xl" id="mobile-menu-btn" aria-label="Open menu">☰</button>
+<body class="bg-gray-50 font-sans">
+
+<!-- NAV -->
+<nav class="bg-white shadow-md sticky top-0 z-50" aria-label="Primary">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="#" class="text-2xl font-bold text-primary">Irreya Café</a>
+    <div id="main-nav" class="hidden md:flex space-x-8">
+      <a href="#menu" class="hover:text-accent">Menu</a>
+      <a href="#specials" class="hover:text-accent">Specials</a>
+      <a href="#ai" class="hover:text-accent">Menu Advisor</a>
+      <a href="#visit" class="hover:text-accent">Visit Us</a>
+      <a href="#contact" class="hover:text-accent">Contact</a>
     </div>
-    <!-- Mobile Menu -->
-    <div class="md:hidden bg-white py-2 hidden" id="mobile-menu" role="menu">
-      <div class="container mx-auto px-4 flex flex-col space-y-3">
-        <a href="#about" class="nav-link text-lg py-1 px-2">About Us</a>
-        <a href="#products" class="nav-link text-lg py-1 px-2">Products</a>
-        <a href="#contact" class="nav-link text-lg py-1 px-2">Contact</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero Banner -->
-  <section id="top" class="relative">
-    <div class="w-full h-96 md:h-[500px] overflow-hidden">
-      <img src="https://picsum.photos/1600/900" alt="Modern living room showcase featuring Irreya's latest home decor collection" class="w-full h-full object-cover" />
-    </div>
-    <div class="absolute inset-0 flex items-center bg-black/30">
-      <div class="container mx-auto px-4 text-white">
-        <h2 class="text-4xl md:text-6xl font-bold mb-4">Summer Collection</h2>
-        <p class="text-xl md:text-2xl mb-6">Discover our latest trendy products</p>
-        <a href="#products" class="btn-primary text-white px-8 py-3 rounded-full text-lg font-bold inline-block">Shop Now</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="py-12 container mx-auto px-4">
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h2 class="text-3xl font-bold mb-4">About Irreya</h2>
-        <p class="text-gray-700 leading-relaxed">We curate stylish, high‑quality products that make everyday life feel special. From cozy home decor to smart gadgets, our collections are crafted to bring color and comfort to your world.</p>
-      </div>
-      <img class="rounded-xl shadow-sm" src="https://picsum.photos/800/600" alt="Team curating trendy products" />
-    </div>
-  </section>
-
-  <!-- New Arrivals -->
-  <section id="products" class="py-12 container mx-auto px-4">
-    <div class="flex justify-between items-center mb-8">
-      <h2 class="text-3xl font-bold">New Arrivals</h2>
-      <button id="show-filters" class="text-primary border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white">Filters</button>
-    </div>
-
-    <!-- Filter Section -->
-    <div class="bg-white p-4 rounded-lg shadow-sm mb-8 hidden" id="filter-section">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1">Price Range</label>
-          <select class="w-full p-2 border rounded">
-            <option>All Prices</option>
-            <option>Under $50</option>
-            <option>$50 - $100</option>
-            <option>Over $100</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Category</label>
-          <select class="w-full p-2 border rounded">
-            <option>All Categories</option>
-            <option>Home Decor</option>
-            <option>Electronics</option>
-            <option>Fashion</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Sort By</label>
-          <select class="w-full p-2 border rounded">
-            <option>Popularity</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-            <option>Newest First</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Product Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      <!-- Product Card 1 -->
-      <div class="product-card bg-white rounded-lg overflow-hidden">
-        <div class="relative h-64">
-          <img src="https://picsum.photos/600?random=1" alt="Modern minimalist ceramic vase in neutral tones" class="w-full h-full object-cover" />
-          <div class="absolute top-2 right-2 bg-accent text-white text-xs px-2 py-1 rounded">NEW</div>
-        </div>
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Ceramic Vase</h3>
-          <p class="text-gray-600 mb-3">Perfect for modern interiors</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-xl">$39.99</span>
-            <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 2 -->
-      <div class="product-card bg-white rounded-lg overflow-hidden">
-        <div class="relative h-64">
-          <img src="https://picsum.photos/600?random=2" alt="Wireless Bluetooth headphones in matte black" class="w-full h-full object-cover" />
-        </div>
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Wireless Headphones</h3>
-          <p class="text-gray-600 mb-3">Premium sound quality</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-xl">$129.99</span>
-            <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 3 -->
-      <div class="product-card bg-white rounded-lg overflow-hidden">
-        <div class="relative h-64">
-          <img src="https://picsum.photos/600?random=3" alt="Organic cotton t-shirt with Irreya logo" class="w-full h-full object-cover" />
-          <div class="absolute top-2 right-2 bg-accent text-white text-xs px-2 py-1 rounded">BEST SELLER</div>
-        </div>
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Organic T‑Shirt</h3>
-          <p class="text-gray-600 mb-3">100% certified cotton</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-xl">$24.99</span>
-            <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 4 -->
-      <div class="product-card bg-white rounded-lg overflow-hidden">
-        <div class="relative h-64">
-          <img src="https://picsum.photos/600?random=4" alt="Sustainable bamboo cutting board" class="w-full h-full object-cover" />
-        </div>
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Bamboo Cutting Board</h3>
-          <p class="text-gray-600 mb-3">Eco‑friendly kitchen essential</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-xl">$34.99</span>
-            <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Best Sellers -->
-  <section class="py-12 bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8">Best Sellers</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        <!-- Cards -->
-        <div class="product-card bg-white rounded-lg overflow-hidden border border-gray-200">
-          <div class="relative h-64">
-            <img src="https://picsum.photos/600?random=5" alt="Smart LED light bulb" class="w-full h-full object-cover" />
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-bold">Smart LED Bulb</h3>
-            <p class="text-gray-600 mb-3">16 million colors</p>
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-xl">$19.99</span>
-              <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-        <div class="product-card bg-white rounded-lg overflow-hidden border border-gray-200">
-          <div class="relative h-64">
-            <img src="https://picsum.photos/600?random=6" alt="Stainless steel insulated water bottle" class="w-full h-full object-cover" />
-            <div class="absolute top-2 right-2 bg-accent text-white text-xs px-2 py-1 rounded">TOP RATED</div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-bold">Insulated Bottle</h3>
-            <p class="text-gray-600 mb-3">24hr cold retention</p>
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-xl">$29.99</span>
-              <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-        <div class="product-card bg-white rounded-lg overflow-hidden border border-gray-200">
-          <div class="relative h-64">
-            <img src="https://picsum.photos/600?random=7" alt="Soft microfiber throw blanket" class="w-full h-full object-cover" />
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-bold">Microfiber Blanket</h3>
-            <p class="text-gray-600 mb-3">Ultra soft and warm</p>
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-xl">$49.99</span>
-              <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-        <div class="product-card bg-white rounded-lg overflow-hidden border border-gray-200">
-          <div class="relative h-64">
-            <img src="https://picsum.photos/600?random=8" alt="Wireless charging pad" class="w-full h-full object-cover" />
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-bold">Wireless Charger</h3>
-            <p class="text-gray-600 mb-3">Fast charging 15W</p>
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-xl">$34.99</span>
-              <button class="btn-primary text-white px-4 py-1 rounded text-sm add-to-cart">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Reviews -->
-  <section class="py-12 bg-gray-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-center">What Our Customers Say</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-sm">
-          <div class="flex items-center mb-4"><div class="text-yellow-400 text-xl" aria-label="5 out of 5">★★★★★</div></div>
-          <p class="text-gray-700 mb-4">"The ceramic vase is absolutely stunning and has become the centerpiece of my living room. The quality exceeded my expectations!"</p>
-          <div class="flex items-center">
-            <img src="https://i.pravatar.cc/50?img=1" alt="Portrait of Sarah J." class="w-10 h-10 rounded-full mr-3" />
-            <div><h4 class="font-bold">Sarah J.</h4><p class="text-sm text-gray-500">New York</p></div>
-          </div>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm">
-          <div class="flex items-center mb-4"><div class="text-yellow-400 text-xl" aria-label="4 out of 5">★★★★☆</div></div>
-          <p class="text-gray-700 mb-4">"I bought the wireless headphones for my daily commute. The sound quality is fantastic and they're very comfortable to wear for hours."</p>
-          <div class="flex items-center">
-            <img src="https://i.pravatar.cc/50?img=2" alt="Portrait of Michael T." class="w-10 h-10 rounded-full mr-3" />
-            <div><h4 class="font-bold">Michael T.</h4><p class="text-sm text-gray-500">Chicago</p></div>
-          </div>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm">
-          <div class="flex items-center mb-4"><div class="text-yellow-400 text-xl" aria-label="5 out of 5">★★★★★</div></div>
-          <p class="text-gray-700 mb-4">"Irreya's customer service is outstanding. They helped me exchange a product quickly and were very friendly throughout the process."</p>
-          <div class="flex items-center">
-            <img src="https://i.pravatar.cc/50?img=3" alt="Portrait of Emily R." class="w-10 h-10 rounded-full mr-3" />
-            <div><h4 class="font-bold">Emily R.</h4><p class="text-sm text-gray-500">Miami</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="py-12 bg-primary text-white">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
-      <p class="text-xl mb-6 max-w-2xl mx-auto">Subscribe to our newsletter and get 10% off your first order</p>
-      <form class="max-w-md mx-auto flex" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
-        <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 rounded-l-md text-gray-700 focus:outline-none" required />
-        <button type="submit" class="bg-accent text-white px-6 py-3 rounded-r-md font-bold">Subscribe</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer id="contact" class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <h3 class="text-xl font-bold mb-4" style="font-family: 'Itim', cursive;">Irreya</h3>
-          <p class="text-gray-400">Bringing you the finest products for your everyday life.</p>
-        </div>
-        <div>
-          <h4 class="font-bold mb-4">Quick Links</h4>
-          <ul class="space-y-2">
-            <li><a href="#about" class="text-gray-400 hover:text-white">About Us</a></li>
-            <li><a href="#products" class="text-gray-400 hover:text-white">Products</a></li>
-            <li><a href="#contact" class="text-gray-400 hover:text-white">Contact</a></li>
-            <li><a href="#faq" class="text-gray-400 hover:text-white">FAQ</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold mb-4">Customer Service</h4>
-          <ul class="space-y-2">
-            <li><a href="#shipping" class="text-gray-400 hover:text-white">Shipping Policy</a></li>
-            <li><a href="#returns" class="text-gray-400 hover:text-white">Returns & Exchanges</a></li>
-            <li><a href="#privacy" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
-            <li><a href="#terms" class="text-gray-400 hover:text-white">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold mb-4">Connect With Us</h4>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white text-2xl" aria-label="Instagram">Instagram</a>
-            <a href="#" class="text-gray-400 hover:text-white text-2xl" aria-label="TikTok">TikTok</a>
-            <a href="#" class="text-gray-400 hover:text-white text-2xl" aria-label="Facebook">Facebook</a>
-          </div>
-        </div>
-      </div>
-      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-        <p>&copy; 2025 Irreya. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Newsletter Popup -->
-  <div id="newsletter-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white p-8 rounded-lg max-w-md w-full relative">
-      <button id="close-newsletter" class="absolute top-4 right-4 text-gray-500 hover:text-black" aria-label="Close">✕</button>
-      <h3 class="text-2xl font-bold mb-4">Get 10% Off!</h3>
-      <p class="text-gray-700 mb-6">Subscribe to our newsletter and receive a discount code for your first purchase.</p>
-      <form class="space-y-4" onsubmit="event.preventDefault(); alert('Discount code sent to your email!');">
-        <input type="email" placeholder="Your email address" class="w-full p-3 border rounded" required />
-        <button type="submit" class="btn-primary text-white w-full py-3 rounded font-bold">Subscribe & Get Discount</button>
-      </form>
+    <button id="nav-toggle" class="md:hidden focus:outline-none" aria-label="Open menu" aria-expanded="false">
+      <i class="fas fa-bars text-xl"></i>
+    </button>
+  </div>
+  <!-- mobile dropdown -->
+  <div id="mobile-nav" class="hidden md:hidden border-t bg-white">
+    <div class="px-4 py-3 flex flex-col space-y-3">
+      <a href="#menu" class="hover:text-accent">Menu</a>
+      <a href="#specials" class="hover:text-accent">Specials</a>
+      <a href="#ai" class="hover:text-accent">Menu Advisor</a>
+      <a href="#visit" class="hover:text-accent">Visit Us</a>
+      <a href="#contact" class="hover:text-accent">Contact</a>
     </div>
   </div>
+</nav>
 
-  <script>
-    // Mobile Menu Toggle
-    document.getElementById('mobile-menu-btn').addEventListener('click', function () {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    });
+<!-- HERO -->
+<section class="relative">
+  <div class="absolute inset-0 bg-black/50"></div>
+  <img src="https://picsum.photos/1600/700?coffee" alt="Irreya Café interior with guests enjoying coffee"
+       class="w-full h-96 object-cover" loading="eager" decoding="async">
+  <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+    <div class="text-white max-w-2xl">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Handcrafted Coffee & Cozy Vibes</h1>
+      <p class="text-xl mb-8">Experience premium coffee sourced from ethical growers and roasted to perfection.</p>
+      <div class="space-x-4">
+        <a href="#menu" class="bg-primary hover:bg-purple-800 text-white px-6 py-3 rounded-lg font-medium inline-block">View Menu</a>
+        <a href="#visit" class="bg-accent hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-medium inline-block">Visit Us</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    // Filter Toggle
-    document.getElementById('show-filters').addEventListener('click', function () {
-      const filterSection = document.getElementById('filter-section');
-      filterSection.classList.toggle('hidden');
-      this.textContent = filterSection.classList.contains('hidden') ? 'Filters' : 'Hide Filters';
-    });
+<!-- MENU -->
+<section id="menu" class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">Our Menu</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    // Newsletter Popup - Show after 3 seconds
-    setTimeout(function () {
-      document.getElementById('newsletter-modal').classList.add('active');
-    }, 3000);
+      <!-- Card -->
+      <div class="menu-item bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        <img src="https://picsum.photos/800/500?espresso" alt="Fresh espresso with latte art"
+             class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">Signature Espresso</h3>
+          <p class="text-gray-600 mb-4">House blend with notes of dark chocolate and caramel</p>
+          <div class="flex justify-between items-center">
+            <span class="text-accent font-bold">$4.50</span>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-purple-800">Add to Order</button>
+          </div>
+        </div>
+      </div>
 
-    // Close Newsletter Popup
-    document.getElementById('close-newsletter').addEventListener('click', function () {
-      document.getElementById('newsletter-modal').classList.remove('active');
-    });
+      <div class="menu-item bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        <img src="https://picsum.photos/800/500?toast" alt="Avocado toast with poached eggs"
+             class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">Avocado Toast</h3>
+          <p class="text-gray-600 mb-4">Sourdough, smashed avocado, poached eggs, chili flakes</p>
+          <div class="flex justify-between items-center">
+            <span class="text-accent font-bold">$12.50</span>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-purple-800">Add to Order</button>
+          </div>
+        </div>
+      </div>
 
-    // Simple demo cart counter (optional)
-    const cartBadge = document.createElement('div');
-    cartBadge.id = 'cart-badge';
-    cartBadge.className = 'fixed bottom-6 right-6 bg-primary text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg';
-    cartBadge.textContent = '0';
-    document.body.appendChild(cartBadge);
+      <div class="menu-item bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        <img src="https://picsum.photos/800/500?croissant" alt="Almond croissant on a wooden board"
+             class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">Almond Croissant</h3>
+          <p class="text-gray-600 mb-4">Flaky pastry with almond cream filling</p>
+          <div class="flex justify-between items-center">
+            <span class="text-accent font-bold">$6.50</span>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-purple-800">Add to Order</button>
+          </div>
+        </div>
+      </div>
 
-    let cartCount = 0;
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', () => {
-        cartCount += 1;
-        cartBadge.textContent = cartCount;
-      });
-    });
-  </script>
+      <div class="menu-item bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        <img src="https://picsum.photos/800/500?matcha" alt="Matcha latte with green swirl"
+             class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">Matcha Latte</h3>
+          <p class="text-gray-600 mb-4">Ceremonial grade matcha, your choice of milk</p>
+          <div class="flex justify-between items-center">
+            <span class="text-accent font-bold">$5.75</span>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-purple-800">Add to Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        <img src="https://picsum.photos/800/500?fruit" alt="Seasonal fruit bowl with yogurt and granola"
+             class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">Seasonal Fruit Bowl</h3>
+          <p class="text-gray-600 mb-4">Fresh local fruits, Greek yogurt, house granola</p>
+          <div class="flex justify-between items-center">
+            <span class="text-accent font-bold">$10.00</span>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-purple-800">Add to Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        <img src="https://picsum.photos/800/500?coldbrew" alt="Cold brew coffee bottle with ice cubes"
+             class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">Cold Brew Bottle</h3>
+          <p class="text-gray-600 mb-4">Slow-steeped for 18 hours, smooth and refreshing</p>
+          <div class="flex justify-between items-center">
+            <span class="text-accent font-bold">$5.00</span>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-purple-800">Add to Order</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SPECIAL -->
+<section id="specials" class="py-16 bg-primary text-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">Today's Special</h2>
+    <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="md:w-1/2">
+        <img src="https://picsum.photos/1000/700?pancakes" alt="Pancake stack with berries and syrup"
+             class="rounded-lg shadow-xl w-full" loading="lazy" decoding="async">
+      </div>
+      <div class="md:w-1/2">
+        <h3 class="text-2xl font-bold mb-4">Pancake Stack with Seasonal Berries</h3>
+        <p class="text-lg mb-6">Fluffy buttermilk pancakes with local berries, maple syrup and whipped cream. Comes with a complimentary cup of our house blend coffee.</p>
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-4xl font-bold text-accent">$14.99</span>
+            <span class="block text-lg text-white/80">Regular $18.50</span>
+          </div>
+          <a href="#visit" class="bg-accent hover:bg-amber-700 text-white px-8 py-3 rounded-lg font-medium inline-block">Order Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI ADVISOR -->
+<section id="ai" class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <h2 class="text-3xl font-bold text-center mb-8">Menu Advisor</h2>
+    <p class="text-center text-lg mb-8 mx-auto max-w-2xl">Not sure what to order? Our AI assistant can recommend drinks and food based on your preferences.</p>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div id="chat-messages" class="p-6 h-96" aria-live="polite">
+        <div class="flex mb-4">
+          <div class="bg-gray-100 p-4 rounded-lg max-w-[80%]">
+            <p>Hello! I'm here to help you choose from our menu. What are you in the mood for today?</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 p-4 border-t">
+        <form id="chat-form" class="flex" onsubmit="event.preventDefault(); sendMessage();">
+          <label for="chat-input" class="sr-only">Ask for a recommendation</label>
+          <input type="text" id="chat-input" placeholder="Ask for a recommendation..." class="flex-grow px-4 py-2 rounded-l-lg border focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Chat input">
+          <button type="submit" class="bg-primary text-white px-6 py-2 rounded-r-lg hover:bg-purple-800">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+      <button onclick="quickQuestion('What\\'s popular?')" class="bg-white border border-gray-200 rounded-lg p-4 hover:bg-gray-50">What's popular?</button>
+      <button onclick="quickQuestion('Good options for breakfast?')" class="bg-white border border-gray-200 rounded-lg p-4 hover:bg-gray-50">Good options for breakfast?</button>
+      <button onclick="quickQuestion('Recommend a coffee')" class="bg-white border border-gray-200 rounded-lg p-4 hover:bg-gray-50">Recommend a coffee</button>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section id="visit" class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">Visit Us</h2>
+    <div class="flex flex-col lg:flex-row gap-12">
+      <div class="lg:w-1/2">
+        <div class="map-container mb-8 rounded-lg overflow-hidden shadow-lg">
+          <!-- Ünvanını dəyişmək üçün: Google Maps → Share → Embed → kodu bu iframe-ə qoy -->
+          <iframe title="Map to Irreya Café"
+                  src="https://maps.google.com/maps?q=Baku&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <div class="lg:w-1/2">
+        <h3 class="text-2xl font-bold mb-4">Hours & Location</h3>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start">
+            <i class="fas fa-map-marker-alt text-accent mt-1 mr-3" aria-hidden="true"></i>
+            <p>123 Coffee Street, Baku (sample)</p>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-clock text-accent mt-1 mr-3" aria-hidden="true"></i>
+            <div>
+              <p class="font-medium">Mon–Fri: 7:00 – 19:00</p>
+              <p class="font-medium">Sat–Sun: 8:00 – 20:00</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-phone text-accent mt-1 mr-3" aria-hidden="true"></i>
+            <p><a class="hover:underline" href="tel:+994501234567">+994 50 123 45 67</a></p>
+          </div>
+        </div>
+        <h3 class="text-2xl font-bold mb-4">Why Visit Irreya Café?</h3>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-3" aria-hidden="true"></i><span>Ethically sourced beans from small farms</span></li>
+          <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-3" aria-hidden="true"></i><span>House-made pastries baked fresh daily</span></li>
+          <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-3" aria-hidden="true"></i><span>Chill vibes & free high-speed WiFi</span></li>
+          <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-3" aria-hidden="true"></i><span>Outdoor seating available</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / FOOTER -->
+<footer id="contact" class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-xl font-bold mb-4">Irreya Café</h3>
+        <p class="mb-4 text-gray-300">A cozy spot for specialty coffee and delicious bites in the heart of the city.</p>
+        <div class="flex space-x-4">
+          <!-- Sosial linklərini dəyiş -->
+          <a href="https://instagram.com/yourpage" target="_blank" rel="noopener" class="text-white hover:text-accent" aria-label="Instagram">
+            <i class="fab fa-instagram text-2xl"></i>
+          </a>
+          <a href="https://tiktok.com/@yourpage" target="_blank" rel="noopener" class="text-white hover:text-accent" aria-label="TikTok">
+            <i class="fab fa-tiktok text-2xl"></i>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+        <div class="space-y-3">
+          <div class="flex items-start">
+            <i class="fas fa-envelope text-accent mt-1 mr-3" aria-hidden="true"></i>
+            <a href="mailto:contact@irreya.com" class="hover:underline">contact@irreya.com</a>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-phone text-accent mt-1 mr-3" aria-hidden="true"></i>
+            <a href="tel:+994501234567" class="hover:underline">+994 50 123 45 67</a>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-map-marker-alt text-accent mt-1 mr-3" aria-hidden="true"></i>
+            <span>123 Coffee Street, Baku (sample)</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+        <p class="mb-4 text-gray-300">Subscribe for updates, events, and special offers.</p>
+        <form id="newsletter-form" class="flex">
+          <label for="email" class="sr-only">Email</label>
+          <input id="email" name="email" type="email" placeholder="Your email"
+                 class="px-4 py-2 w-full rounded-l-lg text-gray-900 focus:outline-none"
+                 required>
+          <button class="bg-accent hover:bg-amber-700 text-white px-4 py-2 rounded-r-lg font-medium" type="submit">Join</button>
+        </form>
+        <p id="newsletter-msg" class="text-green-400 mt-2 hidden">Thanks! Please check your email.</p>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+      <p>© 2025 Irreya Café. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  const navBtn = document.getElementById('nav-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  navBtn.addEventListener('click', () => {
+    const expanded = navBtn.getAttribute('aria-expanded') === 'true';
+    navBtn.setAttribute('aria-expanded', String(!expanded));
+    mobileNav.classList.toggle('hidden');
+  });
+
+  // Newsletter demo submit
+  const nForm = document.getElementById('newsletter-form');
+  const nMsg = document.getElementById('newsletter-msg');
+  nForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    nMsg.classList.remove('hidden');
+    nForm.reset();
+  });
+
+  // AI chat
+  const responses = {
+    "what's popular?": "Our most popular items are the Signature Espresso, Avocado Toast, and Matcha Latte. Many customers also love our seasonal fruit bowl!",
+    "good options for breakfast?": "For breakfast, try Avocado Toast, Seasonal Fruit Bowl, or our Pancake Stack (today's special!). They pair well with our house blend coffee.",
+    "recommend a coffee": "Like it strong? Signature Espresso. Creamy? Cappuccino or Latte. Hot day? Cold Brew is refreshing!",
+    "default": "Tell me if you prefer sweet/savory, hot/cold, or strong/creamy and I’ll recommend something!"
+  };
+
+  function appendMessage(sender, message) {
+    const chat = document.getElementById('chat-messages');
+    const wrap = document.createElement('div');
+    wrap.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : ''}`;
+    const bubbleClass = sender === 'user'
+      ? 'bg-primary text-white p-4 rounded-lg max-w-[80%]'
+      : 'bg-gray-100 p-4 rounded-lg max-w-[80%]';
+    wrap.innerHTML = `<div class="${bubbleClass}"><p>${message}</p></div>`;
+    chat.appendChild(wrap);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function quickQuestion(q){
+    document.getElementById('chat-input').value = q;
+    sendMessage();
+  }
+
+  function sendMessage(){
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if(!msg) return;
+    appendMessage('user', msg);
+    input.value = '';
+
+    const key = Object.keys(responses).find(k => msg.toLowerCase().includes(k));
+    const reply = key ? responses[key] : responses.default;
+
+    setTimeout(()=> appendMessage('bot', reply), 600);
+  }
+
+  document.getElementById('chat-form').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    sendMessage();
+  });
+</script>
 </body>
 </html>
